@@ -201,3 +201,10 @@ a{color:inherit}
 .photo-natural .photo-frame{aspect-ratio:auto}
 .photo-natural .photo-frame img{height:auto}
 .learn-session .photo-43 .photo-frame{aspect-ratio:4/3}
+.sigma-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.sigma-tall{position:relative}
+.ph-sigma-media .sigma-tall .photo-frame{aspect-ratio:auto;position:absolute;inset:0}
+@media (width<=560px){.sigma-grid{grid-template-columns:1fr}.sigma-tall{position:static}.ph-sigma-media .sigma-tall .photo-frame{position:relative;aspect-ratio:3/4}}
+.csw-grid{margin-top:var(--s-5);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.csw-grid .photo-frame{aspect-ratio:4/3}
+@media (width<=900px){.csw-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
