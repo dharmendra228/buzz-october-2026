@@ -191,3 +191,8 @@ a{color:inherit}
 .reveal.is-in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.learn-tile:hover,.award:hover,.colophon-chip:hover{transform:none}}
 .leaders-panel .photo-frame{aspect-ratio:3/2}
+.award-photo{margin:-.4rem -.4rem .4rem}
+.award-photo .photo-frame{aspect-ratio:4/3;border-radius:calc(var(--r-m) - 8px)}
+.award-gallery{margin-top:var(--s-4);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.award-gallery .photo-frame{aspect-ratio:16/9}
+@media (width<=700px){.award-gallery{grid-template-columns:1fr}}
