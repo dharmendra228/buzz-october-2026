@@ -208,3 +208,6 @@ a{color:inherit}
 .csw-grid{margin-top:var(--s-5);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 .csw-grid .photo-frame{aspect-ratio:4/3}
 @media (width<=900px){.csw-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.photo-row3{margin-top:var(--s-5);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.photo-row3 .photo-frame{aspect-ratio:4/3}
+@media (width<=700px){.photo-row3{grid-template-columns:1fr}}
