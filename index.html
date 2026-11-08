@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Buzz — Coming soon</title>
+  <meta name="description" content="Buzz is coming soon. Get notified when we launch." />
+  <meta name="theme-color" content="#0f0d0a" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 4l24 14v28L32 60 8 46V18z' fill='%23ffc23d'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f0d0a;
+      --ink: #f6efe3;
+      --muted: #a39a8b;
+      --honey: #ffc23d;
+      --honey-deep: #f29e1f;
+      --line: rgba(246, 239, 227, 0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Honeycomb backdrop */
+    .comb {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0l28 16v32L28 64 0 48V16zM28 64v33' fill='none' stroke='%23f6efe3' stroke-opacity='.06' stroke-width='1'/%3E%3C/svg%3E");
+      background-size: 56px 97px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 75%);
+    }
+    .glow {
+      position: fixed; z-index: 0; pointer-events: none;
+      width: 60vmax; height: 60vmax; left: 50%; top: 42%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(255, 194, 61, 0.16), transparent 60%);
+      filter: blur(20px);
+      animation: breathe 7s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%, 100% { opacity: .7; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+    }
+
+    header, main, footer { position: relative; z-index: 1; }
+
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 28px clamp(20px, 5vw, 56px);
+      font-size: 14px; letter-spacing: .02em;
+    }
+    .mark { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+    .mark svg { width: 22px; height: 22px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px;
+      color: var(--muted);
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--honey);
+      box-shadow: 0 0 0 0 rgba(255, 194, 61, .6);
+      animation: ping 2s infinite;
+    }
+    @keyframes ping {
+      0% { box-shadow: 0 0 0 0 rgba(255, 194, 61, .55); }
+      80%, 100% { box-shadow: 0 0 0 10px rgba(255, 194, 61, 0); }
+    }
+
+    main {
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 24px clamp(20px, 5vw, 56px) 48px;
+    }
+    .eyebrow {
+      font-size: 13px; text-transform: uppercase; letter-spacing: .22em; color: var(--honey);
+      margin-bottom: 28px;
+    }
+    h1 {
+      position: relative;
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(88px, 21vw, 260px);
+      line-height: .82;
+      letter-spacing: -0.03em;
+    }
+    h1 em {
+      font-style: italic;
+      background: linear-gradient(180deg, var(--honey) 10%, var(--honey-deep) 90%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      padding-right: .06em;
+    }
+
+    /* The bee and its flight path */
+    .flight {
+      position: absolute; left: 50%; top: 50%;
+      width: 130%; height: 150%;
+      transform: translate(-50%, -50%);
+      overflow: visible; pointer-events: none;
+    }
+    .flight path.trail {
+      fill: none; stroke: var(--honey); stroke-width: 1.4;
+      stroke-dasharray: 2 7; stroke-linecap: round; opacity: .55;
+    }
+    .bee { offset-path: path("M -40 140 C 120 -30, 300 230, 470 90 S 760 -20, 880 120"); animation: fly 9s ease-in-out infinite; offset-rotate: auto; }
+    @keyframes fly {
+      0% { offset-distance: 0%; opacity: 0; }
+      8% { opacity: 1; }
+      92% { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    .wing { transform-origin: 0 0; animation: flap .09s linear infinite alternate; }
+    @keyframes flap { from { transform: scaleY(1); } to { transform: scaleY(.35); } }
+
+    .lede {
+      max-width: 38ch;
+      text-wrap: balance;
+      margin-top: 36px;
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.5;
+      color: var(--muted);
+    }
+    .lede strong { color: var(--ink); font-weight: 500; }
+
+    form {
+      margin-top: 36px;
+      display: flex; gap: 8px;
+      width: min(440px, 100%);
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(246, 239, 227, 0.03);
+      backdrop-filter: blur(6px);
+      transition: border-color .2s;
+    }
+    form:focus-within { border-color: rgba(255, 194, 61, .55); }
+    input[type="email"] {
+      flex: 1; min-width: 0;
+      background: transparent; border: 0; outline: 0;
+      color: var(--ink); font: inherit; font-size: 15px;
+      padding: 0 16px;
+    }
+    input::placeholder { color: #6f675b; }
+    button {
+      border: 0; cursor: pointer;
+      font: inherit; font-weight: 500; font-size: 15px;
+      padding: 12px 22px; border-radius: 999px;
+      color: #1a1408; background: var(--honey);
+      transition: transform .15s, background .2s;
+    }
+    button:hover { background: #ffd06a; transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    .note { margin-top: 14px; font-size: 13px; color: #6f675b; min-height: 1.2em; }
+    .note.ok { color: var(--honey); }
+
+    footer {
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+      padding: 24px clamp(20px, 5vw, 56px) 32px;
+      border-top: 1px solid var(--line);
+      font-size: 13px; color: var(--muted);
+    }
+    footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line); }
+    footer a:hover { color: var(--ink); border-color: var(--honey); }
+
+    @media (max-width: 520px) {
+      form { flex-direction: column; border-radius: 22px; }
+      input[type="email"] { padding: 12px 14px; }
+      .pill span.label { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .glow, .dot, .bee, .wing { animation: none; }
+      .bee { opacity: 0; }
+    }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <div class="comb" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+
+  <header>
+    <div class="mark">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4l24 14v28L32 60 8 46V18z" fill="#ffc23d"/><path d="M20 28h24M18 36h28" stroke="#0f0d0a" stroke-width="5"/></svg>
+      Buzz
+    </div>
+    <div class="pill"><span class="dot"></span><span class="label">In the works</span></div>
+  </header>
+
+  <main>
+    <p class="eyebrow">Coming soon</p>
+
+    <h1>
+      <svg class="flight" viewBox="0 0 840 260" preserveAspectRatio="none" aria-hidden="true">
+        <path class="trail" d="M -40 140 C 120 -30, 300 230, 470 90 S 760 -20, 880 120" />
+        <g class="bee">
+          <g transform="translate(-9,-6)">
+            <ellipse class="wing" cx="9" cy="1" rx="5" ry="6" fill="#f6efe3" fill-opacity=".7" />
+            <ellipse cx="9" cy="7" rx="9" ry="5.5" fill="#ffc23d" />
+            <path d="M6 2.2v9.6M11 2v10" stroke="#0f0d0a" stroke-width="2" />
+            <circle cx="17" cy="7" r="2.4" fill="#0f0d0a" />
+          </g>
+        </g>
+      </svg>
+      <em>Buzz</em>
+    </h1>
+
+    <p class="lede">Something new is <strong>taking shape</strong>. Leave your email and we&rsquo;ll let you know the moment it&rsquo;s ready.</p>
+
+    <!-- TODO: point this form at a real endpoint (e.g. Formspree, Buttondown, or a serverless function). -->
+    <form id="notify" action="#" method="post" novalidate>
+      <label for="email" class="sr-only">Email address</label>
+      <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
+      <button type="submit">Notify me</button>
+    </form>
+    <p class="note" id="note" role="status" aria-live="polite"></p>
+  </main>
+
+  <footer>
+    <span>&copy; <span id="year">2026</span> Buzz</span>
+    <a href="https://github.com/dharmendra228/buzz-october-2026">Follow along on GitHub</a>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const form = document.getElementById('notify');
+    const note = document.getElementById('note');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        note.className = 'note';
+        note.textContent = 'That email doesn’t look quite right.';
+        form.email.focus();
+        return;
+      }
+      // Replace with a real submission once an endpoint is chosen.
+      note.className = 'note ok';
+      note.textContent = 'You’re on the list. We’ll be in touch.';
+      form.reset();
+    });
+  </script>
+</body>
+</html>
