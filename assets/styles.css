@@ -190,3 +190,4 @@ a{color:inherit}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity var(--d-slow) var(--ease-out),transform var(--d-slow) var(--ease-out)}
 .reveal.is-in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.learn-tile:hover,.award:hover,.colophon-chip:hover{transform:none}}
+.leaders-panel .photo-frame{aspect-ratio:3/2}
