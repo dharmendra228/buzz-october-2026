@@ -1,254 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Buzz — Coming soon</title>
-  <meta name="description" content="Buzz is coming soon. Get notified when we launch." />
-  <meta name="theme-color" content="#0f0d0a" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 4l24 14v28L32 60 8 46V18z' fill='%23ffc23d'/%3E%3C/svg%3E" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #0f0d0a;
-      --ink: #f6efe3;
-      --muted: #a39a8b;
-      --honey: #ffc23d;
-      --honey-deep: #f29e1f;
-      --line: rgba(246, 239, 227, 0.12);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Honeycomb backdrop */
-    .comb {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0l28 16v32L28 64 0 48V16zM28 64v33' fill='none' stroke='%23f6efe3' stroke-opacity='.06' stroke-width='1'/%3E%3C/svg%3E");
-      background-size: 56px 97px;
-      mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 75%);
-      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 75%);
-    }
-    .glow {
-      position: fixed; z-index: 0; pointer-events: none;
-      width: 60vmax; height: 60vmax; left: 50%; top: 42%;
-      transform: translate(-50%, -50%);
-      background: radial-gradient(circle, rgba(255, 194, 61, 0.16), transparent 60%);
-      filter: blur(20px);
-      animation: breathe 7s ease-in-out infinite;
-    }
-    @keyframes breathe {
-      0%, 100% { opacity: .7; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
-    }
-
-    header, main, footer { position: relative; z-index: 1; }
-
-    header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 28px clamp(20px, 5vw, 56px);
-      font-size: 14px; letter-spacing: .02em;
-    }
-    .mark { display: flex; align-items: center; gap: 10px; font-weight: 700; }
-    .mark svg { width: 22px; height: 22px; }
-    .pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px;
-      color: var(--muted);
-    }
-    .dot {
-      width: 7px; height: 7px; border-radius: 50%; background: var(--honey);
-      box-shadow: 0 0 0 0 rgba(255, 194, 61, .6);
-      animation: ping 2s infinite;
-    }
-    @keyframes ping {
-      0% { box-shadow: 0 0 0 0 rgba(255, 194, 61, .55); }
-      80%, 100% { box-shadow: 0 0 0 10px rgba(255, 194, 61, 0); }
-    }
-
-    main {
-      flex: 1;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center;
-      padding: 24px clamp(20px, 5vw, 56px) 48px;
-    }
-    .eyebrow {
-      font-size: 13px; text-transform: uppercase; letter-spacing: .22em; color: var(--honey);
-      margin-bottom: 28px;
-    }
-    h1 {
-      position: relative;
-      font-family: "Instrument Serif", Georgia, serif;
-      font-weight: 400;
-      font-size: clamp(88px, 21vw, 260px);
-      line-height: .82;
-      letter-spacing: -0.03em;
-    }
-    h1 em {
-      font-style: italic;
-      background: linear-gradient(180deg, var(--honey) 10%, var(--honey-deep) 90%);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-      padding-right: .06em;
-    }
-
-    /* The bee and its flight path */
-    .flight {
-      position: absolute; left: 50%; top: 50%;
-      width: 130%; height: 150%;
-      transform: translate(-50%, -50%);
-      overflow: visible; pointer-events: none;
-    }
-    .flight path.trail {
-      fill: none; stroke: var(--honey); stroke-width: 1.4;
-      stroke-dasharray: 2 7; stroke-linecap: round; opacity: .55;
-    }
-    .bee { offset-path: path("M -40 140 C 120 -30, 300 230, 470 90 S 760 -20, 880 120"); animation: fly 9s ease-in-out infinite; offset-rotate: auto; }
-    @keyframes fly {
-      0% { offset-distance: 0%; opacity: 0; }
-      8% { opacity: 1; }
-      92% { opacity: 1; }
-      100% { offset-distance: 100%; opacity: 0; }
-    }
-    .wing { transform-origin: 0 0; animation: flap .09s linear infinite alternate; }
-    @keyframes flap { from { transform: scaleY(1); } to { transform: scaleY(.35); } }
-
-    .lede {
-      max-width: 38ch;
-      text-wrap: balance;
-      margin-top: 36px;
-      font-size: clamp(17px, 2vw, 20px);
-      line-height: 1.5;
-      color: var(--muted);
-    }
-    .lede strong { color: var(--ink); font-weight: 500; }
-
-    form {
-      margin-top: 36px;
-      display: flex; gap: 8px;
-      width: min(440px, 100%);
-      padding: 6px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(246, 239, 227, 0.03);
-      backdrop-filter: blur(6px);
-      transition: border-color .2s;
-    }
-    form:focus-within { border-color: rgba(255, 194, 61, .55); }
-    input[type="email"] {
-      flex: 1; min-width: 0;
-      background: transparent; border: 0; outline: 0;
-      color: var(--ink); font: inherit; font-size: 15px;
-      padding: 0 16px;
-    }
-    input::placeholder { color: #6f675b; }
-    button {
-      border: 0; cursor: pointer;
-      font: inherit; font-weight: 500; font-size: 15px;
-      padding: 12px 22px; border-radius: 999px;
-      color: #1a1408; background: var(--honey);
-      transition: transform .15s, background .2s;
-    }
-    button:hover { background: #ffd06a; transform: translateY(-1px); }
-    button:active { transform: translateY(0); }
-    .note { margin-top: 14px; font-size: 13px; color: #6f675b; min-height: 1.2em; }
-    .note.ok { color: var(--honey); }
-
-    footer {
-      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-      padding: 24px clamp(20px, 5vw, 56px) 32px;
-      border-top: 1px solid var(--line);
-      font-size: 13px; color: var(--muted);
-    }
-    footer a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--line); }
-    footer a:hover { color: var(--ink); border-color: var(--honey); }
-
-    @media (max-width: 520px) {
-      form { flex-direction: column; border-radius: 22px; }
-      input[type="email"] { padding: 12px 14px; }
-      .pill span.label { display: none; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .glow, .dot, .bee, .wing { animation: none; }
-      .bee { opacity: 0; }
-    }
-    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="BUZZ October 2026 — the Datamatics magazine. Recognition, learning, celebrations and ideas from across Datamatics." />
+<meta name="theme-color" content="#c00d0d" />
+<meta name="robots" content="noindex, nofollow" />
+<title>BUZZ — October 2026 · Datamatics</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c00d0d'/%3E%3Crect x='6' y='7' width='4' height='18' rx='2' fill='%23a6e3f2'/%3E%3Crect x='11.5' y='11' width='4' height='14' rx='2' fill='%23ffc94d'/%3E%3Crect x='17' y='5' width='4' height='20' rx='2' fill='%23ff8ec7'/%3E%3Crect x='22.5' y='14' width='4' height='11' rx='2' fill='%23fff6e8'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&amp;family=Instrument+Serif:ital@1&amp;display=swap" />
+<link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
-  <div class="comb" aria-hidden="true"></div>
-  <div class="glow" aria-hidden="true"></div>
-
-  <header>
-    <div class="mark">
-      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4l24 14v28L32 60 8 46V18z" fill="#ffc23d"/><path d="M20 28h24M18 36h28" stroke="#0f0d0a" stroke-width="5"/></svg>
-      Buzz
-    </div>
-    <div class="pill"><span class="dot"></span><span class="label">In the works</span></div>
-  </header>
-
-  <main>
-    <p class="eyebrow">Coming soon</p>
-
-    <h1>
-      <svg class="flight" viewBox="0 0 840 260" preserveAspectRatio="none" aria-hidden="true">
-        <path class="trail" d="M -40 140 C 120 -30, 300 230, 470 90 S 760 -20, 880 120" />
-        <g class="bee">
-          <g transform="translate(-9,-6)">
-            <ellipse class="wing" cx="9" cy="1" rx="5" ry="6" fill="#f6efe3" fill-opacity=".7" />
-            <ellipse cx="9" cy="7" rx="9" ry="5.5" fill="#ffc23d" />
-            <path d="M6 2.2v9.6M11 2v10" stroke="#0f0d0a" stroke-width="2" />
-            <circle cx="17" cy="7" r="2.4" fill="#0f0d0a" />
-          </g>
-        </g>
-      </svg>
-      <em>Buzz</em>
-    </h1>
-
-    <p class="lede">Something new is <strong>taking shape</strong>. Leave your email and we&rsquo;ll let you know the moment it&rsquo;s ready.</p>
-
-    <!-- TODO: point this form at a real endpoint (e.g. Formspree, Buttondown, or a serverless function). -->
-    <form id="notify" action="#" method="post" novalidate>
-      <label for="email" class="sr-only">Email address</label>
-      <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required />
-      <button type="submit">Notify me</button>
-    </form>
-    <p class="note" id="note" role="status" aria-live="polite"></p>
-  </main>
-
-  <footer>
-    <span>&copy; <span id="year">2026</span> Buzz</span>
-    <a href="https://github.com/dharmendra228/buzz-october-2026">Follow along on GitHub</a>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-    const form = document.getElementById('notify');
-    const note = document.getElementById('note');
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const email = form.email.value.trim();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        note.className = 'note';
-        note.textContent = 'That email doesn’t look quite right.';
-        form.email.focus();
-        return;
-      }
-      // Replace with a real submission once an endpoint is chosen.
-      note.className = 'note ok';
-      note.textContent = 'You’re on the list. We’ll be in touch.';
-      form.reset();
+<a class="skip-link" href="#focus">Skip to the first story</a>
+<header class="masthead" id="top" data-chroma="brand"><div class="page masthead-inner"><div class="masthead-bar"><svg class="masthead-mark" viewBox="0 0 524.7 60.98" role="img" aria-label="Datamatics"><path d="M28.05.43c7.72,0,14.74,3.37,19.83,8.81,5.07,5.41,8.22,12.88,8.22,21.07h0c0,8.2-3.15,15.67-8.22,21.08-5.09,5.43-12.11,8.81-19.83,8.81H0V.43h28.05ZM28.05,10.42H9.49v39.8h18.57c5.09,0,9.73-2.23,13.08-5.82,3.39-3.61,5.48-8.59,5.48-14.08h0c0-5.49-2.09-10.47-5.48-14.08-3.35-3.58-7.99-5.81-13.08-5.81Z"></path><polygon points="159.36 .47 159.36 10.14 142.13 10.14 142.13 60.57 130.99 60.57 130.99 10.14 113.77 10.14 113.77 .47 159.36 .47"></polygon><polygon points="397.37 .47 397.37 10.14 380.15 10.14 380.15 60.57 368.99 60.57 368.99 10.14 351.76 10.14 351.76 .47 397.37 .47"></polygon><rect x="403.47" y=".47" width="11.15" height="60.1"></rect><path d="M469.21,57.89c-2.21.84-4.55,1.49-7.02,1.97-2.46.48-5.05.78-7.77.89h0c-.44.02-.89.03-1.35.05-.48,0-.95,0-1.37,0-1.49,0-3.15-.07-4.8-.25-1.43-.15-2.86-.37-4.12-.68h0c-2.62-.64-5.1-1.68-7.39-3.04-2.33-1.38-4.47-3.11-6.35-5.11-2.61-2.8-4.72-6.12-6.16-9.81-1.39-3.55-2.15-7.44-2.15-11.5h0c0-4.06.76-7.95,2.15-11.5,1.44-3.68,3.55-7.01,6.16-9.8,1.59-1.71,3.38-3.21,5.31-4.47,1.91-1.25,3.97-2.26,6.13-3.01h0c1.6-.55,3.39-.95,5.2-1.21,2.04-.3,4.12-.44,6.03-.44h0s.9,0,.9,0h.01c3.07.05,6,.31,8.77.79,2.77.48,5.38,1.19,7.84,2.12l.27.1v10.83l-.57-.25c-2.51-1.09-5.14-1.91-7.88-2.45-2.73-.55-5.57-.82-8.51-.82h-.61s-.74.02-.74.02c-2.3.06-5.15.75-7.8,1.83-2.59,1.05-4.98,2.44-6.51,3.94-.15.15-.31.31-.46.46h0c-.13.14-.28.3-.43.48-1.57,1.78-2.84,3.87-3.7,6.18-.83,2.21-1.29,4.64-1.29,7.18h0c0,2.64.5,5.15,1.38,7.44.93,2.39,2.29,4.54,3.97,6.33.46.5.96.97,1.48,1.42.52.45,1.07.86,1.63,1.24h0c1.37.94,3.6,1.99,6.23,2.72,2.1.58,4.45.95,6.81.89h.65l.67-.02c2.69-.08,5.29-.38,7.8-.92,2.51-.55,4.94-1.32,7.28-2.33l.57-.25v10.83l-.27.1Z"></path><polygon points="224.49 60.57 224.49 .47 236.04 .47 256.43 46.06 276.4 .47 287.53 .47 287.53 60.57 277.23 60.57 277.23 18.7 260.93 60.57 251.42 60.57 234.79 18.7 234.79 60.57 224.49 60.57"></polygon><path d="M505.08,25.26h-10.26c-4.87,0-7.31-2.24-7.31-6.73,0-5.88,5.05-8.82,15.13-8.82,5.33,0,10.43.72,15.32,2.12l3.76-8.86c-6.01-1.96-12.37-2.93-19.08-2.93-17.51,0-26.26,6.17-26.26,18.49,0,11.21,6.15,16.81,18.44,16.81h10.26c5.65,0,8.49,2.24,8.49,6.73,0,6.15-4.62,9.23-13.82,9.23-7.59,0-14.41-1.11-20.43-3.35v10.08c6.03,1.97,12.84,2.94,20.43,2.94,16.64,0,24.96-6.3,24.96-18.9,0-11.22-6.54-16.82-19.62-16.82Z"></path><polygon points="92.45 .47 80.67 .47 55.15 60.57 66.58 60.57 86.38 11.95 96.22 34.51 83.73 34.51 79.91 44.18 99.16 44.18 106.73 60.57 118.7 60.57 92.45 .47"></polygon><polygon points="191.82 .28 180.04 .27 154.52 60.37 165.95 60.37 185.75 11.76 195.59 34.32 183.1 34.32 179.28 43.99 198.53 43.99 206.09 60.37 218.07 60.37 191.82 .28"></polygon><polygon points="330.92 .28 319.14 .27 293.61 60.37 305.05 60.37 324.84 11.76 334.69 34.32 322.19 34.32 318.37 43.99 337.62 43.99 345.19 60.37 357.17 60.37 330.92 .28"></polygon></svg><p class="masthead-issue t-meta">October 2026</p></div><h1 class="masthead-word"><span class="visually-hidden">BUZZ October 2026</span><span class="mw-layer mw-layer-1" style="color:var(--f-philippines)" aria-hidden="true">BUZZ</span><span class="mw-layer mw-layer-2" style="color:var(--f-corporate)" aria-hidden="true">BUZZ</span><span class="mw-layer mw-layer-3" style="color:var(--f-press)" aria-hidden="true">BUZZ</span><span class="mw-main" aria-hidden="true"><span class="mw-letter">B</span><span class="mw-letter">U</span><span class="mw-letter">Z</span><span class="mw-letter">Z</span></span></h1><p class="masthead-strap t-serif">The Datamatics Magazine</p><nav class="spectrum" aria-label="In this issue"><p class="spectrum-label t-micro">In this issue</p><ol class="spectrum-list"><li class="spectrum-tile" data-chroma="focus"><a href="#focus" class="spectrum-link"><span class="spectrum-num t-serif">01</span><span class="spectrum-name">In Focus</span></a></li><li class="spectrum-tile" data-chroma="press"><a href="#research" class="spectrum-link"><span class="spectrum-num t-serif">02</span><span class="spectrum-name">AI Research</span></a></li><li class="spectrum-tile" data-chroma="analyst"><a href="#corporate" class="spectrum-link"><span class="spectrum-num t-serif">03</span><span class="spectrum-name">Corporate Updates</span></a></li><li class="spectrum-tile" data-chroma="leaders"><a href="#learning" class="spectrum-link"><span class="spectrum-num t-serif">04</span><span class="spectrum-name">Learning Updates</span></a></li><li class="spectrum-tile" data-chroma="learning"><a href="#philippines" class="spectrum-link"><span class="spectrum-num t-serif">05</span><span class="spectrum-name">Datamatics Philippines</span></a></li><li class="spectrum-tile" data-chroma="corporate"><a href="#mumbai" class="spectrum-link"><span class="spectrum-num t-serif">06</span><span class="spectrum-name">Datamatics Mumbai</span></a></li><li class="spectrum-tile" data-chroma="philippines"><a href="#nashik" class="spectrum-link"><span class="spectrum-num t-serif">07</span><span class="spectrum-name">Datamatics Nashik</span></a></li><li class="spectrum-tile" data-chroma="thoughtcast"><a href="#bangalore" class="spectrum-link"><span class="spectrum-num t-serif">08</span><span class="spectrum-name">Datamatics Bangalore</span></a></li><li class="spectrum-tile" data-chroma="mustread"><a href="#puducherry" class="spectrum-link"><span class="spectrum-num t-serif">09</span><span class="spectrum-name">Datamatics Puducherry</span></a></li><li class="spectrum-tile" data-chroma="quiz"><a href="#visits" class="spectrum-link"><span class="spectrum-num t-serif">10</span><span class="spectrum-name">Customer Visits</span></a></li></ol></nav></div></header>
+<nav class="rail" aria-label="Chapters"><ol class="rail-list"><li class="rail-stop" data-chroma="focus"><a href="#focus" class="rail-link"><span class="rail-swatch" aria-hidden="true"></span><span class="rail-label"><span class="rail-num" aria-hidden="true">01</span>In Focus</span></a></li><li class="rail-stop" data-chroma="press"><a href="#research" class="rail-link"><span class="rail-swatch" aria-hidden="true"></span><span class="rail-label"><span class="rail-num" aria-hidden="true">02</span>AI Research</span></a></li><li class="rail-stop" data-chroma="analyst"><a href="#corporate" class="rail-link"><span class="rail-swatch" aria-hidden="true"></span><span class="rail-label"><span class="rail-num" aria-hidden="true">03</span>Corporate Updates</span></a></li><li class="rail-stop" data-chroma="leaders"><a href="#learning" class="rail-link"><span class="rail-swatch" aria-hidden="true"></span><span class="rail-label"><span class="rail-num" aria-hidden="true">04</span>Learning Updates</span></a></li><li class="rail-stop" data-chroma="learning"><a href="#philippines" class="rail-link"><span class="rail-swatch" aria-hidden="true"></span><span class="rail-label"><span class="rail-num" aria-hidden="true">05</span>Datamatics Philippines</span></a></li><li class="rail-stop" data-chroma="corporate"><a href="#mumbai" class="rail-link"><span class="rail-swatch" aria-hidden="true"></span><span class="rail-label"><span class="rail-num" aria-hidden="true">06</span>Datamatics Mumbai</span></a></li><li class="rail-stop" data-chroma="philippines"><a href="#nashik" class="rail-link"><span class="rail-swatch" aria-hidden="true"></span><span class="rail-label"><span class="rail-num" aria-hidden="true">07</span>Datamatics Nashik</span></a></li><li class="rail-stop" data-chroma="thoughtcast"><a href="#bangalore" class="rail-link"><span class="rail-swatch" aria-hidden="true"></span><span class="rail-label"><span class="rail-num" aria-hidden="true">08</span>Datamatics Bangalore</span></a></li><li class="rail-stop" data-chroma="mustread"><a href="#puducherry" class="rail-link"><span class="rail-swatch" aria-hidden="true"></span><span class="rail-label"><span class="rail-num" aria-hidden="true">09</span>Datamatics Puducherry</span></a></li><li class="rail-stop" data-chroma="quiz"><a href="#visits" class="rail-link"><span class="rail-swatch" aria-hidden="true"></span><span class="rail-label"><span class="rail-num" aria-hidden="true">10</span>Customer Visits</span></a></li></ol></nav>
+<main id="main">
+<section id="focus" aria-labelledby="focus-title" data-chroma="focus" class="chapter focus" style="--prev-field:var(--f-brand)"><div class="chapter-bleed" aria-hidden="true"></div><div class="page"><header class="chapter-head"><span class="chapter-numeral t-numeral" aria-hidden="true">01</span><p class="chapter-kicker t-meta"><span class="chapter-kicker-dot" aria-hidden="true"></span><span class="visually-hidden">Chapter 1 of 10: </span>In Focus</p><h2 id="focus-title" class="chapter-title t-h2">Datamatics Philippines earns Circle of Excellence recognition in three categories at the Asia CEO Awards 2026</h2></header>
+<div class="focus-body reveal"><figure class="photo photo-offset focus-photo"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Asia CEO Awards 2026"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><p class="focus-lede t-lede">We are proud to announce that Datamatics Philippines has earned Circle of Excellence recognition in three prestigious categories at the Asia CEO Awards 2026!</p></div>
+<ul class="awards">
+<li class="award reveal" data-chroma="corporate"><span class="award-icon" aria-hidden="true">🏆</span><h3 class="award-name t-h4">APEX Company of the Year</h3><p class="award-text">Honoring our commitment to business growth and outstanding performance.</p></li>
+<li class="award reveal" data-chroma="press"><span class="award-icon" aria-hidden="true">🏆</span><h3 class="award-name t-h4">Diversity Company of the Year</h3><p class="award-text">Celebrating our dedication to fostering a diverse, equitable, and inclusive workplace.</p></li>
+<li class="award reveal" data-chroma="quiz"><span class="award-icon" aria-hidden="true">🏆</span><h3 class="award-name t-h4">Top Employer of the Year</h3><p class="award-text">Recognizing our people-first culture and commitment to an exceptional employee experience.</p></li>
+</ul></div></section><section id="research" aria-labelledby="research-title" data-chroma="press" class="chapter " style="--prev-field:var(--f-focus)"><div class="chapter-bleed" aria-hidden="true"></div><div class="page"><header class="chapter-head"><span class="chapter-numeral t-numeral" aria-hidden="true">02</span><p class="chapter-kicker t-meta"><span class="chapter-kicker-dot" aria-hidden="true"></span><span class="visually-hidden">Chapter 2 of 10: </span>AI Research</p><h2 id="research-title" class="chapter-title t-h2">AI Adoption to AI Contribution</h2></header>
+<div class="leaders-spread reveal"><figure class="photo photo-offset leaders-portrait"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Research paper published in Bloomsbury"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure>
+<div class="leaders-text"><h3 class="t-h3 story-title">Our Research Paper Published in Bloomsbury</h3>
+<p class="leaders-quote t-serif" aria-hidden="true">“From AI adoption to AI contribution.”</p>
+<div class="copy flow t-body"><p>An AI-first culture is one where we do not just use AI, but actively explore, question, experiment, collaborate, and contribute to the evolving conversation around it.</p><p>In that spirit, we are proud to share that an original research paper authored by <strong>Dr. Rima Ghose Chowdhury, Sanjeet Banerji, and Dr. Ashutosh Kumar Pandey</strong> has been published by Bloomsbury in <em>Digital Strategies and Transformation: Strategic Innovations for a Tech-Driven Economy</em> (SEEDS 2025).</p><p>Titled <em>“A Study on Assessing the Relationship between Industry Sector and Belief in AI Adoption for Leadership Decision-Making,”</em> the paper examines how industry context shapes leaders’ views on AI adoption. It also presents a practical AI Adoption Framework spanning Strategy, Data, Technology, People, and Governance &amp; Ethics, supported by key enablers including Culture, Leadership, and Ecosystem Partnerships.</p></div>
+<p class="learn-list-label t-micro">The AI Adoption Framework</p>
+<ul class="panel-list"><li>Strategy</li><li>Data</li><li>Technology</li><li>People</li><li>Governance &amp; Ethics</li></ul>
+</div></div></div></section><section id="corporate" aria-labelledby="corporate-title" data-chroma="analyst" class="chapter " style="--prev-field:var(--f-press)"><div class="chapter-bleed" aria-hidden="true"></div><div class="page"><header class="chapter-head"><span class="chapter-numeral t-numeral" aria-hidden="true">03</span><p class="chapter-kicker t-meta"><span class="chapter-kicker-dot" aria-hidden="true"></span><span class="visually-hidden">Chapter 3 of 10: </span>Corporate Updates</p><h2 id="corporate-title" class="chapter-title t-h2">Corporate Updates</h2></header><article class="story reveal" aria-labelledby="corp-leaders"><h3 id="corp-leaders" class="t-h3 story-title">Leaders in the Lead</h3><div class="learn-ms"><figure class="photo learn-ms-photo"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: BUZZ AI transformation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><div class="copy flow t-body"><p><strong>Divya Kumat</strong>, Executive Vice President, Chief Legal Officer &amp; Company Secretary, Datamatics, spearheaded an AI-powered transformation of the company’s internal newsletter, BUZZ. The refreshed edition introduced a more interactive, visually engaging format, leveraging AI to streamline content creation and design. The initiative showcased how AI can enhance internal communications, improve efficiency, and create engaging experiences while bringing employee stories, achievements, and celebrations to life.</p></div></div></article><article class="story reveal" aria-labelledby="corp-womentoring"><p class="story-date t-meta">September 2026</p><h3 id="corp-womentoring" class="t-h3 story-title">(Wo)Mentoring — Lessons from Life and Entrepreneurship</h3><div class="ph-stats"><div class="stat"><p class="stat-value">300+</p><p class="stat-label t-meta">Datamaticians across geographies</p></div><div class="stat"><p class="stat-value">5+</p><p class="stat-label t-meta">Years of (Wo)Mentoring</p></div></div><div class="learn-ms"><figure class="photo learn-ms-photo"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: (Wo)Mentoring session"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><div class="copy flow t-body"><p>In our recent (Wo)Mentoring session, we were proud to host <strong>Kanika Mittal</strong> (Founder &amp; CEO – Unbound Lifestyle and Former Independent Board Director – Datamatics) for an inspiring conversation on <em>‘Lessons from Life and Entrepreneurship’</em>.</p><p>300+ Datamaticians across geographies joined the session in a hybrid setup as Kanika shared valuable insights from her professional and personal journey.</p><p>The session offered key learnings on resilience, authenticity, future readiness, and work-life balance, making it an impactful experience.</p><p>Running over 5 years now, (Wo)Mentoring, a Datamatics Diversity Charter initiative brings in inspiring industry mentors from diverse backgrounds.</p></div></div></article><article class="story reveal" aria-labelledby="corp-cii"><h3 id="corp-cii" class="t-h3 story-title">Dr. Rima Ghose Chowdhury shares insights at the Inaugural CII Western Region CHRO Summit 2026</h3><div class="leaders-spread"><figure class="photo photo-offset leaders-portrait"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: CII Western Region CHRO Summit 2026"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><div class="leaders-text"><p class="leaders-quote t-serif" aria-hidden="true">“From Pilots to Practice: Making Agentic AI Work Inside HR”</p><div class="copy flow t-body"><p><strong>Dr. Rima Ghose Chowdhury</strong>, President – CHRO &amp; CSR Leader, Datamatics, was invited as Panelist at the Inaugural CII Western Region CHRO Summit 2026, themed <em>“The Modern CHRO Playbook.”</em></p><p>The session on Agentic AI &amp; Technology – <em>“From Pilots to Practice: Making Agentic AI Work Inside HR”</em> explored the practical applications, the importance of building reskilling capabilities at the pace of change, and the evolving role of HR in navigating technology-led transformation.</p><p>Along with co-panelists from Siemens, Accenture, Univitt Ai Technologies, Tata Capital, Tata Consumer Products and AdvantageClub.ai the session highlighted the need to translate AI-driven possibilities into practical HR applications while strengthening workforce capabilities aligned to emerging technologies and changing business needs.</p></div><p class="learn-list-label t-micro">Co-panelists from</p><ul class="panel-list"><li>Siemens</li><li>Accenture</li><li>Univitt Ai Technologies</li><li>Tata Capital</li><li>Tata Consumer Products</li><li>AdvantageClub.ai</li></ul></div></div></article></div></section><section id="learning" aria-labelledby="learning-title" data-chroma="leaders" class="chapter " style="--prev-field:var(--f-analyst)"><div class="chapter-bleed" aria-hidden="true"></div><div class="page"><header class="chapter-head"><span class="chapter-numeral t-numeral" aria-hidden="true">04</span><p class="chapter-kicker t-meta"><span class="chapter-kicker-dot" aria-hidden="true"></span><span class="visually-hidden">Chapter 4 of 10: </span>Learning Updates</p><h2 id="learning-title" class="chapter-title t-h2">Learning Updates</h2></header><article class="story reveal" aria-labelledby="learn-pwi"><h3 id="learn-pwi" class="t-h3 story-title">Presenting with Impact — Train the Trainer at Datamatics Nashik</h3><div class="learn-tech"><div class="copy flow t-body"><p>The Corporate L&amp;D team conducted <strong>Presenting with Impact</strong> Train-the-Trainer programme on October 9 and 23, 2026, at Nashik Auditorium, Ashoka Enclave. Facilitated by Sajid Patel &amp; Reshma Balachandran, the programme aimed to strengthen the presentation and training delivery skills of Datamatics Internal Training Ambassadors.</p><p>Through practical exercises, presentations, and feedback-driven teachback sessions, participants explored techniques to engage diverse learners, communicate with confidence, manage challenging classroom situations, and design interactive learning experiences. The programme reinforced Datamatics’ commitment to fostering a strong internal learning culture by empowering trainers to deliver engaging, impactful, and learner-centric sessions.</p></div><div class="learn-session"><span class="learn-session-date t-meta" aria-hidden="true">9 &amp; 23 October</span><figure class="photo "><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Presenting with Impact, Nashik"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure></div></div></article><article class="story reveal" aria-labelledby="learn-stem"><h3 id="learn-stem" class="t-h3 story-title">STEM — Step Towards Enhancing Me for Nashik</h3><div class="learn-ms"><figure class="photo learn-ms-photo"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: STEM sessions, Nashik"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><div><div class="copy flow t-body"><p>The sessions covered four key modules. Through interactive activities, practical examples, and facilitator-led discussions, participants explored ways to strengthen their communication, manage time effectively, collaborate better, and enhance their personal effectiveness.</p></div><ul class="learn-modules t-body"><li><strong>Brand Ambassadors</strong></li><li><strong>Effective Communication</strong></li><li><strong>Time Management</strong></li><li><strong>Teamwork</strong></li></ul><div class="copy flow t-body"><p>Participants appreciated the engaging delivery, clear explanations, practical examples, and interactive activities.</p></div></div></div></article><article class="story reveal" aria-labelledby="learn-lss"><p class="story-date t-meta">12–16 October 2026</p><h3 id="learn-lss" class="t-h3 story-title">Lean Six Sigma White Belt Training</h3><div class="ph-stats"><div class="stat"><p class="stat-value">16</p><p class="stat-label t-meta">Participants in batch 1</p></div><div class="stat"><p class="stat-value">15</p><p class="stat-label t-meta">Hours over five days</p></div></div><div class="ph-sigma"><div class="copy flow t-body"><p>The first batch of the Lean Six Sigma White Belt Training Programme was conducted from 12th to 16th October 2026, with 16 participants from Mumbai, Nashik, Bangalore, and Puducherry successfully completing the training.</p><p>Spanning 15 hours over five consecutive days, the programme equipped participants with foundational knowledge of Lean Six Sigma principles and their practical application in the workplace. Having completed the training, participants are now in the process of identifying suitable projects and are expected to implement and complete them over the next 2–3 months, translating their learning into tangible business improvements.</p><p><strong>Batch 2 Update:</strong> The second batch is currently underway from 26th to 30th October 2026, continuing the organisation-wide initiative to build process improvement capabilities across locations.</p></div><div class="ph-sigma-media"><figure class="photo "><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Lean Six Sigma White Belt Training"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure></div></div></article><article class="story reveal" aria-labelledby="learn-api"><h3 id="learn-api" class="t-h3 story-title">Tech # Talk — API Management Gateway at Mumbai</h3><div class="learn-tech"><div class="copy flow t-body"><p>As part of its continued efforts to promote technology awareness and encourage knowledge sharing, the Business and Corporate Learning &amp; Development Team organized a <strong>Tech# Talk</strong> session on API Gateway (APG) in October, led by Siddhesh Malvankar.</p><p>The session provided participants with an understanding of API Gateway fundamentals, its role in managing API communication, security and access control policies, authentication, traffic management, and integration with multiple backend services. Through practical examples and interactive discussions, the session highlighted how API Gateways enable secure, efficient, and seamless communication between applications.</p><p>The Tech# Talks initiative continues to foster a culture of continuous learning, innovation, and knowledge sharing, empowering employees to explore emerging technologies and strengthen their technical capabilities.</p></div><div class="learn-session"><span class="learn-session-date t-meta" aria-hidden="true">October</span><figure class="photo "><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Tech# Talk on API Gateway"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure></div></div></article><article class="story reveal" aria-labelledby="learn-elevate"><h3 id="learn-elevate" class="t-h3 story-title">New Courses and Learning Path — Elevate LMS</h3><div class="ph-stats"><div class="stat"><p class="stat-value">350+</p><p class="stat-label t-meta">Courses in the catalog</p></div><div class="stat"><p class="stat-value">45</p><p class="stat-label t-meta">Elevate Bytes micro-learning modules</p></div></div><div class="learn-tech"><div class="copy flow t-body"><p>Elevate is now easily accessible directly through MySpace. Simply navigate to Apps, click on the Elevate logo, and log in using your employee code and Pulse password.</p><p>Explore our expanding catalog of over 350+ courses spanning technical, functional, quality, product, behavioral, compliance, and other categories—including nearly 45 micro-learning modules known as <strong>Elevate Bytes</strong> for quick, 15-minute upskilling.</p></div><figure class="photo photo-wide"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Elevate LMS"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure></div>
+<p class="learn-list-label t-micro">Key pathways</p><ul class="learn-tiles learn-tiles-paths"><li class="learn-tile" data-chroma="learning"><span class="learn-tile-name">Cloud Demystified Series</span>For the Cloud CoE</li><li class="learn-tile" data-chroma="analyst"><span class="learn-tile-name">Testing Excellence</span>For Testers</li><li class="learn-tile" data-chroma="thoughtcast"><span class="learn-tile-name">Data Learning Paths</span>Coming soon</li><li class="learn-tile" data-chroma="corporate"><span class="learn-tile-name">Elevate Bytes</span>Quick, 15-minute upskilling</li></ul></article></div></section><section id="philippines" aria-labelledby="philippines-title" data-chroma="learning" class="chapter " style="--prev-field:var(--f-leaders)"><div class="chapter-bleed" aria-hidden="true"></div><div class="page"><header class="chapter-head"><span class="chapter-numeral t-numeral" aria-hidden="true">05</span><p class="chapter-kicker t-meta"><span class="chapter-kicker-dot" aria-hidden="true"></span><span class="visually-hidden">Chapter 5 of 10: </span>Datamatics Philippines</p><h2 id="philippines-title" class="chapter-title t-h2">Datamatics Philippines</h2></header><article class="story reveal" aria-labelledby="ph-csw"><h3 id="ph-csw" class="t-h3 story-title">Celebrating Service, Strengthening Connections: Customer Service Week 2026</h3><div class="learn-tech"><div class="copy flow t-body"><p>We celebrated Customer Service Week with a series of engaging activities honouring our employees’ dedication, resilience, and valuable contributions. The week featured a meaningful Mental Health Session that highlighted the importance of well-being, followed by an exciting Trivia Night and a thrilling Solving Mystery Night that encouraged teamwork, critical thinking, and friendly competition.</p><p>In Manila, the celebration culminated in a Recognition Night, giving the team an opportunity to acknowledge outstanding contributions and celebrate the people behind every successful customer experience. Meanwhile, the Cebu team shared the joy with snacks, adding a simple yet thoughtful touch to the celebration.</p><p>More than a week of fun and appreciation, Customer Service Week reminded everyone that exceptional service starts with empowered, supported, and valued employees. Through these activities, Datamatics strengthened team connections, celebrated individual and collective achievements, and reinforced its commitment to fostering a positive and appreciative workplace culture.</p></div><figure class="photo photo-offset photo-tall"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Customer Service Week 2026"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure></div></article><article class="story reveal" aria-labelledby="ph-badminton"><h3 id="ph-badminton" class="t-h3 story-title">Smash, Rally, Connect: Cebu Badminton Tournament Day</h3><div class="learn-ms"><figure class="photo learn-ms-photo"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Cebu Badminton Tournament Day"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><div class="copy flow t-body"><p>The Cebu Badminton Tournament Day brought Datamaticians together at Point21 Badminton Court in Cebu for a full day of exciting matches, friendly competition, and sportsmanship. Participants stepped away from work to showcase their skills, challenge themselves, and cheer on colleagues. Energetic rallies and hard-fought points fostered enthusiasm and camaraderie. Beyond the games, the event strengthened relationships, encouraged teamwork, and promoted an active, balanced lifestyle, leaving participants with lasting memories and a renewed sense of unity beyond the workplace.</p><p>By fostering connection and an active, balanced lifestyle, the event aligned with the Datamatics <strong>Wheel of wellbeing</strong>.</p></div></div></article><article class="story reveal" aria-labelledby="ph-waves"><h3 id="ph-waves" class="t-h3 story-title">Beyond the Waves: Building Bonds, Creating Memories with IT Department Team Building Activity</h3><div class="corp-fellowship"><figure class="photo photo-offset corp-hero"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: IT Team Building, Batangas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><div class="copy flow t-body"><p>After months of planning with Dive Spot PH and House of Goodies, the Datamatics IT Team Building brought the team to Puerto De Ligpo, San Luis, Batangas, for two days of adventure, relaxation, and camaraderie. Thoughtfully arranged boat transfers, guided diving, meals, and accommodations ensured a smooth getaway.</p><p>Marine exploration, beachside relaxation, Trivia Night, and drawing and guessing games sparked laughter and friendly competition. Supported by seamless coordination, dedicated partners, and enthusiastic participation, the event strengthened connections between leadership and technical teams and created lasting memories.</p></div></div></article></div></section><section id="mumbai" aria-labelledby="mumbai-title" data-chroma="corporate" class="chapter " style="--prev-field:var(--f-learning)"><div class="chapter-bleed" aria-hidden="true"></div><div class="page"><header class="chapter-head"><span class="chapter-numeral t-numeral" aria-hidden="true">06</span><p class="chapter-kicker t-meta"><span class="chapter-kicker-dot" aria-hidden="true"></span><span class="visually-hidden">Chapter 6 of 10: </span>Datamatics Mumbai</p><h2 id="mumbai-title" class="chapter-title t-h2">Navratri Celebration in Mumbai</h2></header><div class="corp-fellowship reveal"><figure class="photo photo-offset corp-hero"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Navratri Garba Utsav, Mumbai"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><p class="focus-lede t-lede">The Navratri Garba Utsav at Datamatics celebrated our rich cultural heritage, festive traditions, and spirit of togetherness in Mumbai.</p></div></div></section><section id="nashik" aria-labelledby="nashik-title" data-chroma="philippines" class="chapter " style="--prev-field:var(--f-corporate)"><div class="chapter-bleed" aria-hidden="true"></div><div class="page"><header class="chapter-head"><span class="chapter-numeral t-numeral" aria-hidden="true">07</span><p class="chapter-kicker t-meta"><span class="chapter-kicker-dot" aria-hidden="true"></span><span class="visually-hidden">Chapter 7 of 10: </span>Datamatics Nashik</p><h2 id="nashik-title" class="chapter-title t-h2">Garba Night</h2></header><div class="reveal"><figure class="photo photo-offset photo-wide"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Garba Night, Nashik"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure></div></div></section><section id="bangalore" aria-labelledby="bangalore-title" data-chroma="thoughtcast" class="chapter " style="--prev-field:var(--f-philippines)"><div class="chapter-bleed" aria-hidden="true"></div><div class="page"><header class="chapter-head"><span class="chapter-numeral t-numeral" aria-hidden="true">08</span><p class="chapter-kicker t-meta"><span class="chapter-kicker-dot" aria-hidden="true"></span><span class="visually-hidden">Chapter 8 of 10: </span>Datamatics Bangalore</p><h2 id="bangalore-title" class="chapter-title t-h2">Dasara &amp; Deepavali Celebrations</h2></header><div class="corp-fellowship reveal"><figure class="photo photo-offset corp-hero"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Dasara and Deepavali, Bangalore"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><p class="focus-lede t-lede">Bangalore team brightened up the office by dressing in 9 vibrant colours, bringing together diversity, unity, and festive cheer and enjoyed the festivities with dandiya event.</p></div></div></section><section id="puducherry" aria-labelledby="puducherry-title" data-chroma="mustread" class="chapter " style="--prev-field:var(--f-thoughtcast)"><div class="chapter-bleed" aria-hidden="true"></div><div class="page"><header class="chapter-head"><span class="chapter-numeral t-numeral" aria-hidden="true">09</span><p class="chapter-kicker t-meta"><span class="chapter-kicker-dot" aria-hidden="true"></span><span class="visually-hidden">Chapter 9 of 10: </span>Datamatics Puducherry</p><h2 id="puducherry-title" class="chapter-title t-h2">Datamatics Puducherry</h2></header><ul class="mr-list">
+<li class="mr-row reveal"><figure class="photo mr-thumb"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Bonding Times, Puducherry"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><div class="mr-body"><p class="mr-kind t-micro">Puducherry</p><h3 class="mr-title t-h3">Bonding Times</h3></div></li>
+<li class="mr-row reveal"><figure class="photo mr-thumb"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: Helmet Rally, Puducherry"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><div class="mr-body"><p class="mr-kind t-micro">Puducherry</p><h3 class="mr-title t-h3">Helmet Rally</h3></div></li>
+</ul></div></section><section id="visits" aria-labelledby="visits-title" data-chroma="quiz" class="chapter " style="--prev-field:var(--f-mustread)"><div class="chapter-bleed" aria-hidden="true"></div><div class="page"><header class="chapter-head"><span class="chapter-numeral t-numeral" aria-hidden="true">10</span><p class="chapter-kicker t-meta"><span class="chapter-kicker-dot" aria-hidden="true"></span><span class="visually-hidden">Chapter 10 of 10: </span>Customer Visits</p><h2 id="visits-title" class="chapter-title t-h2">Customer Visits</h2></header><div class="corp-fellowship reveal"><figure class="photo photo-offset corp-hero"><div class="photo-frame"><div class="photo-pending" role="img" aria-label="Photos to come: BBC visit to Datamatics Mumbai"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-2.5h6L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.6"/></svg><span class="t-micro">Photos to come</span></div></div></figure><div><p class="mr-kind t-micro" style="display:inline-block">Mumbai Office</p><h3 class="t-h3 story-title" style="margin-top:var(--s-2)">Gary Bateman, from BBC visited Datamatics Mumbai Office</h3></div></div></div></section>
+</main>
+<footer class="colophon" data-chroma="brand"><div class="page"><nav aria-label="Issue contents"><p class="t-micro colophon-label">In this issue</p><ol class="colophon-list"><li data-chroma="focus" class="colophon-chip"><a href="#focus"><span class="t-serif colophon-num" aria-hidden="true">01</span>In Focus</a></li><li data-chroma="press" class="colophon-chip"><a href="#research"><span class="t-serif colophon-num" aria-hidden="true">02</span>AI Research</a></li><li data-chroma="analyst" class="colophon-chip"><a href="#corporate"><span class="t-serif colophon-num" aria-hidden="true">03</span>Corporate Updates</a></li><li data-chroma="leaders" class="colophon-chip"><a href="#learning"><span class="t-serif colophon-num" aria-hidden="true">04</span>Learning Updates</a></li><li data-chroma="learning" class="colophon-chip"><a href="#philippines"><span class="t-serif colophon-num" aria-hidden="true">05</span>Datamatics Philippines</a></li><li data-chroma="corporate" class="colophon-chip"><a href="#mumbai"><span class="t-serif colophon-num" aria-hidden="true">06</span>Datamatics Mumbai</a></li><li data-chroma="philippines" class="colophon-chip"><a href="#nashik"><span class="t-serif colophon-num" aria-hidden="true">07</span>Datamatics Nashik</a></li><li data-chroma="thoughtcast" class="colophon-chip"><a href="#bangalore"><span class="t-serif colophon-num" aria-hidden="true">08</span>Datamatics Bangalore</a></li><li data-chroma="mustread" class="colophon-chip"><a href="#puducherry"><span class="t-serif colophon-num" aria-hidden="true">09</span>Datamatics Puducherry</a></li><li data-chroma="quiz" class="colophon-chip"><a href="#visits"><span class="t-serif colophon-num" aria-hidden="true">10</span>Customer Visits</a></li></ol></nav><div class="colophon-mark"><p class="colophon-word" aria-hidden="true">BUZZ</p><div class="colophon-meta"><svg class="colophon-dm" viewBox="0 0 524.7 60.98" role="img" aria-label="Datamatics"><path d="M28.05.43c7.72,0,14.74,3.37,19.83,8.81,5.07,5.41,8.22,12.88,8.22,21.07h0c0,8.2-3.15,15.67-8.22,21.08-5.09,5.43-12.11,8.81-19.83,8.81H0V.43h28.05ZM28.05,10.42H9.49v39.8h18.57c5.09,0,9.73-2.23,13.08-5.82,3.39-3.61,5.48-8.59,5.48-14.08h0c0-5.49-2.09-10.47-5.48-14.08-3.35-3.58-7.99-5.81-13.08-5.81Z"></path><polygon points="159.36 .47 159.36 10.14 142.13 10.14 142.13 60.57 130.99 60.57 130.99 10.14 113.77 10.14 113.77 .47 159.36 .47"></polygon><polygon points="397.37 .47 397.37 10.14 380.15 10.14 380.15 60.57 368.99 60.57 368.99 10.14 351.76 10.14 351.76 .47 397.37 .47"></polygon><rect x="403.47" y=".47" width="11.15" height="60.1"></rect><path d="M469.21,57.89c-2.21.84-4.55,1.49-7.02,1.97-2.46.48-5.05.78-7.77.89h0c-.44.02-.89.03-1.35.05-.48,0-.95,0-1.37,0-1.49,0-3.15-.07-4.8-.25-1.43-.15-2.86-.37-4.12-.68h0c-2.62-.64-5.1-1.68-7.39-3.04-2.33-1.38-4.47-3.11-6.35-5.11-2.61-2.8-4.72-6.12-6.16-9.81-1.39-3.55-2.15-7.44-2.15-11.5h0c0-4.06.76-7.95,2.15-11.5,1.44-3.68,3.55-7.01,6.16-9.8,1.59-1.71,3.38-3.21,5.31-4.47,1.91-1.25,3.97-2.26,6.13-3.01h0c1.6-.55,3.39-.95,5.2-1.21,2.04-.3,4.12-.44,6.03-.44h0s.9,0,.9,0h.01c3.07.05,6,.31,8.77.79,2.77.48,5.38,1.19,7.84,2.12l.27.1v10.83l-.57-.25c-2.51-1.09-5.14-1.91-7.88-2.45-2.73-.55-5.57-.82-8.51-.82h-.61s-.74.02-.74.02c-2.3.06-5.15.75-7.8,1.83-2.59,1.05-4.98,2.44-6.51,3.94-.15.15-.31.31-.46.46h0c-.13.14-.28.3-.43.48-1.57,1.78-2.84,3.87-3.7,6.18-.83,2.21-1.29,4.64-1.29,7.18h0c0,2.64.5,5.15,1.38,7.44.93,2.39,2.29,4.54,3.97,6.33.46.5.96.97,1.48,1.42.52.45,1.07.86,1.63,1.24h0c1.37.94,3.6,1.99,6.23,2.72,2.1.58,4.45.95,6.81.89h.65l.67-.02c2.69-.08,5.29-.38,7.8-.92,2.51-.55,4.94-1.32,7.28-2.33l.57-.25v10.83l-.27.1Z"></path><polygon points="224.49 60.57 224.49 .47 236.04 .47 256.43 46.06 276.4 .47 287.53 .47 287.53 60.57 277.23 60.57 277.23 18.7 260.93 60.57 251.42 60.57 234.79 18.7 234.79 60.57 224.49 60.57"></polygon><path d="M505.08,25.26h-10.26c-4.87,0-7.31-2.24-7.31-6.73,0-5.88,5.05-8.82,15.13-8.82,5.33,0,10.43.72,15.32,2.12l3.76-8.86c-6.01-1.96-12.37-2.93-19.08-2.93-17.51,0-26.26,6.17-26.26,18.49,0,11.21,6.15,16.81,18.44,16.81h10.26c5.65,0,8.49,2.24,8.49,6.73,0,6.15-4.62,9.23-13.82,9.23-7.59,0-14.41-1.11-20.43-3.35v10.08c6.03,1.97,12.84,2.94,20.43,2.94,16.64,0,24.96-6.3,24.96-18.9,0-11.22-6.54-16.82-19.62-16.82Z"></path><polygon points="92.45 .47 80.67 .47 55.15 60.57 66.58 60.57 86.38 11.95 96.22 34.51 83.73 34.51 79.91 44.18 99.16 44.18 106.73 60.57 118.7 60.57 92.45 .47"></polygon><polygon points="191.82 .28 180.04 .27 154.52 60.37 165.95 60.37 185.75 11.76 195.59 34.32 183.1 34.32 179.28 43.99 198.53 43.99 206.09 60.37 218.07 60.37 191.82 .28"></polygon><polygon points="330.92 .28 319.14 .27 293.61 60.37 305.05 60.37 324.84 11.76 334.69 34.32 322.19 34.32 318.37 43.99 337.62 43.99 345.19 60.37 357.17 60.37 330.92 .28"></polygon></svg><p class="t-meta">October 2026</p></div></div><a class="pill colophon-top" href="#top"><span aria-hidden="true">↑</span> Back to the cover</a></div></footer>
+<div class="grain" aria-hidden="true"></div>
+<script>
+(function () {
+  var rail = document.querySelector('.rail');
+  var masthead = document.querySelector('.masthead');
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail-link'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main .chapter'));
+  var colophon = document.querySelector('.colophon');
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('is-in'); });
+    return;
+  }
+  // Show the chapter rail once the cover has scrolled away, hide it on the footer
+  var coverVisible = true, footVisible = false;
+  function syncRail() { if (!coverVisible && !footVisible) rail.setAttribute('data-visible', ''); else rail.removeAttribute('data-visible'); }
+  new IntersectionObserver(function (e) { coverVisible = e[0].isIntersecting; syncRail(); }, { threshold: 0.15 }).observe(masthead);
+  new IntersectionObserver(function (e) { footVisible = e[0].isIntersecting; syncRail(); }, { threshold: 0.3 }).observe(colophon);
+  // Highlight the chapter in view
+  var active = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + en.target.id); });
     });
-  </script>
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  sections.forEach(function (s) { active.observe(s); });
+  // Gentle reveal as content scrolls in
+  var rev = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('is-in'); rev.unobserve(en.target); } });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(function (el) { rev.observe(el); });
+})();
+</script>
 </body>
 </html>
