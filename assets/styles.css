@@ -198,3 +198,5 @@ a{color:inherit}
 @media (width<=700px){.award-gallery{grid-template-columns:1fr}}
 .research-photo .photo-frame{aspect-ratio:3/2}
 .photo-stack{display:grid;gap:10px}
+.photo-natural .photo-frame{aspect-ratio:auto}
+.photo-natural .photo-frame img{height:auto}
