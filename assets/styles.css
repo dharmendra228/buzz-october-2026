@@ -221,3 +221,4 @@ a{color:inherit}
 .collage{max-width:1000px;margin:var(--s-5) auto 0}
 .mr-span{grid-column:1/-1;margin-top:0}
 .mr-span .photo-frame{aspect-ratio:4/3}
+.mr-span .photo-natural{max-width:1000px}
