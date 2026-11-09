@@ -219,3 +219,5 @@ a{color:inherit}
 .photo-row4 .photo-frame{aspect-ratio:3/2}
 @media (width<=900px){.photo-row4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .collage{max-width:1000px;margin:var(--s-5) auto 0}
+.mr-span{grid-column:1/-1;margin-top:0}
+.mr-span .photo-frame{aspect-ratio:4/3}
