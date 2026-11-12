@@ -223,3 +223,15 @@ a{color:inherit}
 .mr-span .photo-frame{aspect-ratio:4/3}
 .mr-span .photo-natural{max-width:1000px}
 .visit-portraits .photo-frame{aspect-ratio:3/4}
+/* Events */
+.event-list{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.event-card{border-radius:var(--r-m);padding:clamp(1.4rem,3vw,2.4rem);min-height:clamp(14rem,22vw,20rem);display:flex;flex-direction:column;justify-content:space-between;gap:var(--s-3);transition:transform var(--d-base) var(--ease-bounce)}
+.event-card:hover{transform:translateY(-4px) rotate(-.6deg)}
+.event-num{color:var(--accent);font-size:clamp(3rem,2rem + 3vw,5rem);line-height:.8}
+.event-name{color:var(--ink);margin:0;max-width:14ch}
+@media (width<=900px){.event-list{grid-template-columns:1fr}.event-card{min-height:0}}
+/* Must Read rows without a thumbnail */
+.mr-row.no-thumb{grid-template-columns:auto minmax(0,1fr);align-items:start}
+.mr-num{color:var(--accent);font-size:clamp(3rem,2rem + 3vw,5.5rem);line-height:.8;min-width:2ch}
+.mr-row.no-thumb .mr-title{max-width:34ch}
+@media (prefers-reduced-motion:reduce){.event-card:hover{transform:none}}
