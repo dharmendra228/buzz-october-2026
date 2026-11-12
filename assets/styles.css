@@ -235,3 +235,7 @@ a{color:inherit}
 .mr-num{color:var(--accent);font-size:clamp(3rem,2rem + 3vw,5.5rem);line-height:.8;min-width:2ch}
 .mr-row.no-thumb .mr-title{max-width:34ch}
 @media (prefers-reduced-motion:reduce){.event-card:hover{transform:none}}
+.event-head{display:flex;align-items:baseline;gap:var(--s-3);margin-bottom:var(--s-3)}
+.event-head .story-title{margin:0}
+.event-story .photo-row4{margin-top:var(--s-4)}
+.ev-square .photo-frame{aspect-ratio:1/1}
